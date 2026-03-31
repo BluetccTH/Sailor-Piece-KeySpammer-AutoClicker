@@ -1,4 +1,4 @@
-# Blue.tcc Macro | KUROMI 💜🖤
+# Blue.tcc Macro | KUROMI 💜🖤 - Credit: Yato
 
 **Blue.tcc Macro** is an **AutoHotkey v2.0 script** designed to enhance gameplay automation on PC.  
 
