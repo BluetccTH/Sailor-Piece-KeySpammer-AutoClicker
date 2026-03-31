@@ -1,8 +1,10 @@
-﻿#Requires AutoHotkey v2.0
+#Requires AutoHotkey v2.0
 #SingleInstance Force
 
+;Credit: Yato
+
 ; =========================================================
-;  Blue.tcc Macro | KUROMI 
+;  Blue.tcc Macro | KUROMI Credit: Yato
 ;  AutoHotkey v2.0
 ; =========================================================
 
@@ -111,26 +113,59 @@ if !FileExist(IniFile) {
     if (Result = "Cancel")
         ExitApp()
 
-    Run("https://www.tiktok.com/@blue.tcc?sub_confirmation=1")
-    Sleep(12000) ; 
+    ; -------------------------
+    ; Open YouTube
+    ; -------------------------
+    Run("https://www.youtube.com/@yatoark/?sub_confirmation=1")
+    Sleep(3000)
 
     TargetID := WinGetID("A")
-    WinActivate("ahk_id " TargetID)
-    Sleep(300)
+    if TargetID {
+        WinActivate("ahk_id " TargetID)
+        Sleep(300)
 
-    WinGetPos(&X, &Y, &W, &H, "ahk_id " TargetID)
+        WinGetPos(&X, &Y, &W, &H, "ahk_id " TargetID)
 
-    
-    clickX := Round(X + (W / 1.6458))
-    clickY := Round(Y + (H / 4.9648))
+        ; Click center
+        Click(Round(X + (W / 2)), Round(Y + (H / 2)))
+        Sleep(100)
+        Send("{Tab}")
+        Sleep(100)
+        Send("{Tab}")
+        Sleep(300)
+        Send("{Enter}")
+        Sleep(500)
+        Send("{Enter}")
+    }
 
-    Click(clickX, clickY) 
+    Sleep(1000)
 
-    Sleep(100)
-    Send("{Tab}")
-    Sleep(300)
-    Send("{Enter}")
+    ; -------------------------
+    ; Open TikTok
+    ; -------------------------
+    Run("https://www.tiktok.com/@blue.tcc")
+    Sleep(3000)
 
+    TargetID := WinGetID("A")
+    if TargetID {
+        WinActivate("ahk_id " TargetID)
+        Sleep(300)
+
+        WinGetPos(&X, &Y, &W, &H, "ahk_id " TargetID)
+
+        clickX := Round(X + (W / 1.6458))
+        clickY := Round(Y + (H / 4.9648))
+
+        Click(clickX, clickY)
+        Sleep(100)
+        Send("{Tab}")
+        Sleep(300)
+        Send("{Enter}")
+    }
+
+    ; -------------------------
+    ; Create default config
+    ; -------------------------
     IniWrite(DefaultPresets, IniFile, "Meta", "Presets")
     IniWrite("e", IniFile, "Default", "Key1")
     IniWrite("100", IniFile, "Default", "Delay1")
@@ -141,7 +176,7 @@ PresetList := IniRead(IniFile, "Meta", "Presets", DefaultPresets)
 ; =========================
 ; DEBUG GUI
 ; =========================
-DebugGui := Gui("+AlwaysOnTop -MaximizeBox +ToolWindow", "Kuromi Debug Log")
+DebugGui := Gui("+AlwaysOnTop -MaximizeBox +ToolWindow", "Kuromi - Credit: Yato Debug Log")
 DebugGui.BackColor := BgColor
 DebugGui.SetFont("s9 c" TextColor, "Consolas")
 DebugEdit := DebugGui.Add("Edit", "x10 y10 w400 h450 ReadOnly Multi -Wrap Background" CardColor " c" TextColor)
@@ -189,7 +224,7 @@ ToggleDebugGui(*) {
 
     if (DebugMode) {
         DebugGui.Show("w420 h470 NoActivate")
-        LogDebug("--- Kuromi Premium Debug Enabled ---")
+        LogDebug("--- Kuromi - Credit: Yato Debug Enabled ---")
     } else {
         DebugGui.Hide()
     }
@@ -198,7 +233,7 @@ ToggleDebugGui(*) {
 ; =========================
 ; MAIN GUI
 ; =========================
-MainGui := Gui("+AlwaysOnTop -MaximizeBox -DPIScale", "Blue.tcc | Kuromi 💜🖤")
+MainGui := Gui("+AlwaysOnTop -MaximizeBox -DPIScale", "Blue.tcc | Kuromi 💜🖤 Credit: Yato")
 MainGui.OnEvent("Close", (*) => ExitApp())
 MainGui.BackColor := BgColor
 MainGui.SetFont("s9 c" TextColor, "Segoe UI")
@@ -215,17 +250,23 @@ if (BgImagePath != "") {
 ; =========================
 HeaderBg := MainGui.Add("Text", "x8 y8 w364 h46 +0x200 Background" CardColor2)
 HeaderBg.OnEvent("Click", StartDragWindow)
-HeaderBg.OnEvent("DoubleClick", (*) => Run("https://discord.gg/WTYgx6CPeh"))
+HeaderBg.OnEvent("DoubleClick", OpenDiscordLinks)
 
-HeaderTitle := MainGui.Add("Text", "x18 y15 w344 h18 Center BackgroundTrans cFFFFFF", "💜 KUROMI • Blue.tcc 🖤")
+HeaderTitle := MainGui.Add("Text", "x18 y15 w344 h18 Center BackgroundTrans cFFFFFF", "💜 KUROMI • Blue.tcc 🖤 Credit: Yato")
 HeaderTitle.SetFont("s12 w700", "Segoe UI")
 HeaderTitle.OnEvent("Click", StartDragWindow)
-HeaderTitle.OnEvent("DoubleClick", (*) => Run("https://discord.gg/WTYgx6CPeh"))
+HeaderTitle.OnEvent("DoubleClick", OpenDiscordLinks)
 
 HeaderSub := MainGui.Add("Text", "x18 y34 w344 h12 Center BackgroundTrans c" SubTextColor, "Double Click Header To Join Discord")
 HeaderSub.SetFont("s7 w400", "Segoe UI")
 HeaderSub.OnEvent("Click", StartDragWindow)
-HeaderSub.OnEvent("DoubleClick", (*) => Run("https://discord.gg/WTYgx6CPeh"))
+HeaderSub.OnEvent("DoubleClick", OpenDiscordLinks)
+
+OpenDiscordLinks(*) {
+    Run("https://discord.gg/WTYgx6CPeh")
+    Sleep(200)
+    Run("https://discord.gg/9dkmX6pAZd")
+}
 
 ; =========================
 ; DECOR / PANEL BACKS
@@ -648,7 +689,7 @@ UpdateSettings(ShowMsg := false) {
     OldToggleKey := ToggleKey
 
     if (ShowMsg)
-        MsgBox("Settings Applied 💜", "Kuromi", "Iconi T1")
+        MsgBox("Settings Applied 💜", "Kuromi - Credit: Yato", "Iconi T1")
 }
 
 ToggleSpam(*) {
@@ -880,7 +921,7 @@ CreateNewPreset(*) {
     
     for item in StrSplit(PresetList, "|") {
         if (item = NewPresetName) {
-            MsgBox("Preset already exists.", "Kuromi", "Icon!")
+            MsgBox("Preset already exists.", "Kuromi - Credit: Yato", "Icon!")
             return
         }
     }
